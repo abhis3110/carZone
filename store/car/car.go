@@ -154,7 +154,7 @@ func (s Store) CreateCar(ctx context.Context, carReq *models.CarRequest) (models
 	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $0)
 	RETURNING id, name, year, brand, fuel_type, engine_id, price, created_at, updated_id
 	`
-	err = tx.QueryRowContext(ctx, query, 
+	err = tx.QueryRowContext(ctx, query,
 		newCar.ID,
 		newCar.Name,
 		newCar.Year,
@@ -203,7 +203,7 @@ func (s Store) UpdateCar(ctx context.Context, id string, carReq *models.CarReque
 	RETURN id, name, year, brand, fuel_type, engine_id, price, created_at, updated_id
 	`
 
-	err = tx.QueryRowContext(ctx, query, 
+	err = tx.QueryRowContext(ctx, query,
 		id,
 		carReq.Name,
 		carReq.Year,
@@ -246,7 +246,9 @@ func (s Store) DeleteCar(ctx context.Context, id string) (models.Car, error) {
 		}
 		err = tx.Commit()
 	}()
-	
+
+	// find rows, delete rows and return deleted rows
+
 	err = tx.QueryRowContext(ctx, "SELECT id, name, year, brand, fuel_type, engine_id, price, created_at, updated_id FROM car WHERE id = $1", id).Scan(
 		&deletedCar.ID,
 		&deletedCar.Name,
@@ -260,7 +262,7 @@ func (s Store) DeleteCar(ctx context.Context, id string) (models.Car, error) {
 	)
 
 	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
+		if errors.Is(err, sql.ErrNoRows) { // if no rows with given id found case
 			return models.Car{}, errors.New("car not found")
 		}
 		return models.Car{}, err
@@ -272,9 +274,6 @@ func (s Store) DeleteCar(ctx context.Context, id string) (models.Car, error) {
 	}
 	rowsAffected, err := results.RowsAffected()
 
-	if err != nil {
-		return models.Car{}, err
-	}
 	if rowsAffected == 0 {
 		return models.Car{}, errors.New("no rows were deleted")
 	}
