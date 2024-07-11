@@ -20,14 +20,13 @@ func (e EngineStore) EngineById(ctx context.Context, id string) (models.Engine, 
 }
 
 func (e EngineStore) CreateEngine(ctx context.Context, engineReq *models.EngineRequest) (models.Engine, error) {
-	
+
 }
 
 func (e EngineStore) UpdateEngine(ctx context.Context, id string, engineReq *models.EngineRequest) (models.Engine, error) {
-	
+
 }
 
-
 func (e EngineStore) DeleteEngine(ctx context.Context, id string) (models.Engine, error) {
-	
+
 }
