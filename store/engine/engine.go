@@ -148,7 +148,6 @@ func (e EngineStore) UpdateEngine(ctx context.Context, id string, engineReq *mod
 
 
 
-
 func (e EngineStore) DeleteEngine(ctx context.Context, id string) (models.Engine, error) {
 	var engine models.Engine
 	tx, err := e.db.BeginTx(ctx, nil)
