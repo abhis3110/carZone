@@ -15,9 +15,8 @@ type CarHandler struct {
 	service service.CarServiceInterface
 }
 
-
 func NewCarHandler(service service.CarServiceInterface) *CarHandler {
-	return &CarHandler {
+	return &CarHandler{
 		service: service,
 	}
 }
@@ -48,10 +47,8 @@ func (h *CarHandler) GetCarByID(w http.ResponseWriter, r *http.Request) {
 	_, err = w.Write(body)
 	if err != nil {
 		log.Println("Error writing response: ", err)
-	} 
+	}
 }
-
-
 
 func (h *CarHandler) GetCarByBrand(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
@@ -79,9 +76,8 @@ func (h *CarHandler) GetCarByBrand(w http.ResponseWriter, r *http.Request) {
 	_, err = w.Write(body)
 	if err != nil {
 		log.Println("Error writing response: ", err)
-	} 
+	}
 }
-
 
 func (h *CarHandler) CreateCar(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
@@ -119,9 +115,8 @@ func (h *CarHandler) CreateCar(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 
 	// write the response body
-	_, _ = w.Write(responseBody) 
+	_, _ = w.Write(responseBody)
 }
-
 
 func (h *CarHandler) UpdateCar(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
@@ -161,11 +156,10 @@ func (h *CarHandler) UpdateCar(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 	// write the response body
-	_, _ = w.Write(responseBody) 
+	_, _ = w.Write(responseBody)
 }
 
-
-func (h *CarHandler) DeleteCarCar(w http.ResponseWriter, r *http.Request) {
+func (h *CarHandler) DeleteCar(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	params := mux.Vars(r)
 	id := params["id"]
@@ -188,7 +182,7 @@ func (h *CarHandler) DeleteCarCar(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 	// write the response body
-	_, err = w.Write(body) 
+	_, err = w.Write(body)
 	if err != nil {
 		log.Println("Error writting Response :", err)
 	}

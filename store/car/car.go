@@ -14,14 +14,14 @@ type Store struct { // a types of constructor
 	db *sql.DB
 }
 
-func new(db *sql.DB) Store {
+func New(db *sql.DB) Store {
 	return Store{db: db}
 }
 
 func (s Store) GetCarById(ctx context.Context, id string) (models.Car, error) {
 	var car models.Car // single car data returned
-	query := `SELECT c.id, c.name, c.year, c.brand, c.fuel_type, c,engine_id, c.price, c.created_at, c.updated_at, 
-    e.id, e.displacement, e.no_of_cylinders, e.car_eange FROM car c LEFT JOIN engine e ON c.engine_id = e.id WHERE c.id = $1`
+	query := `SELECT c.id, c.name, c.year, c.brand, c.fuel_type, c.engine_id, c.price, c.created_at, c.updated_at, 
+    e.id, e.displacement, e.no_of_cylinders, e.car_range FROM car c LEFT JOIN engine e ON c.engine_id = e.id WHERE c.id = $1`
 
 	row := s.db.QueryRowContext(ctx, query, id) // single row fetched
 	err := row.Scan(
