@@ -46,7 +46,7 @@ func main() {
 
 	router.HandleFunc("/cars/{id}", carhandler.GetCarByID).Methods("GET")
 	router.HandleFunc("/cars", carhandler.GetCarByBrand).Methods("GET")
-	router.HandleFunc("/cars", carhandler.GetCarByID).Methods("POST") // need to correct func call
+	router.HandleFunc("/cars", carhandler.CreateCar).Methods("POST") // need to correct func call
 	router.HandleFunc("/cars/{id}", carhandler.UpdateCar).Methods("PUT")
 	router.HandleFunc("/cars/{id}", carhandler.DeleteCar).Methods("DELETE")
 
@@ -54,6 +54,7 @@ func main() {
 	router.HandleFunc("/engine", enginehandler.CreateEngine).Methods("POST")
 	router.HandleFunc("/engine/{id}", enginehandler.UpdateEngine).Methods("PUT")
 	router.HandleFunc("/engine/{id}", enginehandler.DeleteEngine).Methods("DELETE")
+	router.HandleFunc("/ping", Ping).Methods("GET")
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -75,4 +76,8 @@ func executeSchemaFile(db *sql.DB, schemaFile string) error {
 		return err
 	}
 	return nil
+}
+
+func Ping(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("pong"))
 }

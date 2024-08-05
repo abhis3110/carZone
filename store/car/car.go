@@ -20,8 +20,11 @@ func New(db *sql.DB) Store {
 
 func (s Store) GetCarById(ctx context.Context, id string) (models.Car, error) {
 	var car models.Car // single car data returned
-	query := `SELECT c.id, c.name, c.year, c.brand, c.fuel_type, c.engine_id, c.price, c.created_at, c.updated_at, 
-    e.id, e.displacement, e.no_of_cylinders, e.car_range FROM car c LEFT JOIN engine e ON c.engine_id = e.id WHERE c.id = $1`
+	//query := `SELECT c.id, c.name, c.year, c.brand, c.fuel_type, c.engine_id, c.price, c.created_at, c.updated_at,
+	//e.id, e.displacement, e.no_of_cylinders, e.car_range FROM car c LEFT JOIN engine e ON c.engine_id = e.id WHERE c.id = $1`
+
+	query := `SELECT c.id, c.name, c.year, c.brand, c.fuel_type, c.engine_id, c.price, c.created_at,
+       c.updated_at, e.id, e.displacement, e.no_of_cylinders, e.car_range FROM car c LEFT JOIN engine e ON c.engine_id = e.id WHERE c.id = $1;`
 
 	row := s.db.QueryRowContext(ctx, query, id) // single row fetched
 	err := row.Scan(
@@ -151,7 +154,7 @@ func (s Store) CreateCar(ctx context.Context, carReq *models.CarRequest) (models
 
 	query := `
 	INSERT INTO car (id, name, year, brand, fuel_type, engine_id, price, created_at, updated_id)
-	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $0)
+	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 	RETURNING id, name, year, brand, fuel_type, engine_id, price, created_at, updated_id
 	`
 	err = tx.QueryRowContext(ctx, query,

@@ -58,7 +58,7 @@ func (h *CarHandler) GetCarByBrand(w http.ResponseWriter, r *http.Request) {
 	resp, err := h.service.GetCarByBrand(ctx, brand, isEngine)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("Error : ", err)
+		log.Println("Error in GetCarByBrand : ", err)
 		return
 	}
 
