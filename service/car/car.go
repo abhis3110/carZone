@@ -11,10 +11,9 @@ type CarService struct {
 	store store.CarStoreInterface
 }
 
-
 func NewCarService(store store.CarStoreInterface) *CarService {
-	return &CarService {
-		store : store,
+	return &CarService{
+		store: store,
 	}
 }
 
@@ -24,7 +23,7 @@ func (s *CarService) GetCarByID(ctx context.Context, id string) (*models.Car, er
 		return nil, err
 	}
 	return &car, nil
-	
+
 }
 
 func (s *CarService) GetCarByBrand(ctx context.Context, brand string, isEngine bool) ([]models.Car, error) {
@@ -48,7 +47,6 @@ func (s *CarService) CreateCar(ctx context.Context, car *models.CarRequest) (*mo
 	return &createdCar, nil
 }
 
-
 func (s *CarService) UpdateCar(ctx context.Context, id string, carReq *models.CarRequest) (*models.Car, error) {
 	if err := models.ValidateRequest(*carReq); err != nil {
 		return nil, err
@@ -59,8 +57,6 @@ func (s *CarService) UpdateCar(ctx context.Context, id string, carReq *models.Ca
 	}
 	return &updatedCar, nil
 }
-
-
 
 func (s *CarService) DeleteCar(ctx context.Context, id string) (*models.Car, error) {
 	deletedCar, err := s.store.DeleteCar(ctx, id)

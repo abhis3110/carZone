@@ -35,7 +35,7 @@ var db *sql.DB
 //}
 
 const (
-	host     = "db" //"localhost"
+	host     = "localhost" //"db" //"localhost"
 	port     = 5432
 	user     = "user"
 	password = "password"

@@ -28,6 +28,7 @@ func main() {
 	defer driver.CloseDB()
 
 	db := driver.GetDB()
+
 	carstore := carStore.New(db)
 	carservice := carService.NewCarService(carstore)
 
@@ -44,6 +45,8 @@ func main() {
 		log.Fatal("Error while executing schema file ", err)
 	}
 
+	router.HandleFunc("/ping", Ping).Methods("GET")
+
 	router.HandleFunc("/cars/{id}", carhandler.GetCarByID).Methods("GET")
 	router.HandleFunc("/cars", carhandler.GetCarByBrand).Methods("GET")
 	router.HandleFunc("/cars", carhandler.CreateCar).Methods("POST") // need to correct func call
@@ -54,7 +57,6 @@ func main() {
 	router.HandleFunc("/engine", enginehandler.CreateEngine).Methods("POST")
 	router.HandleFunc("/engine/{id}", enginehandler.UpdateEngine).Methods("PUT")
 	router.HandleFunc("/engine/{id}", enginehandler.DeleteEngine).Methods("DELETE")
-	router.HandleFunc("/ping", Ping).Methods("GET")
 
 	port := os.Getenv("PORT")
 	if port == "" {
