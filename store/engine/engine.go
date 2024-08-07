@@ -18,9 +18,6 @@ func New(db *sql.DB) *EngineStore {
 	return &EngineStore{db: db}
 }
 
-
-
-
 func (e EngineStore) EngineById(ctx context.Context, id string) (models.Engine, error) {
 	var engine models.Engine
 
@@ -55,11 +52,6 @@ func (e EngineStore) EngineById(ctx context.Context, id string) (models.Engine, 
 	return engine, nil
 }
 
-
-
-
-
-
 func (e EngineStore) CreateEngine(ctx context.Context, engineReq *models.EngineRequest) (models.Engine, error) {
 	tx, err := e.db.BeginTx(ctx, nil)
 	if err != nil {
@@ -85,22 +77,20 @@ func (e EngineStore) CreateEngine(ctx context.Context, engineReq *models.EngineR
 	}
 
 	engine := models.Engine{
-		EngineID : engineID,
-		Displacement: engineReq.Displacement,
+		EngineID:      engineID,
+		Displacement:  engineReq.Displacement,
 		NoOfCylinders: engineReq.NoOfCylinders,
-		CarRange: engineReq.CarRange,
+		CarRange:      engineReq.CarRange,
 	}
 
 	return engine, nil
 }
 
-
-
-
 func (e EngineStore) UpdateEngine(ctx context.Context, id string, engineReq *models.EngineRequest) (models.Engine, error) {
 
 	engineID, err := uuid.Parse(id)
 	if err != nil {
+
 		return models.Engine{}, fmt.Errorf("invalid Engine ID: %w", err)
 	}
 	tx, err := e.db.BeginTx(ctx, nil)
@@ -120,7 +110,7 @@ func (e EngineStore) UpdateEngine(ctx context.Context, id string, engineReq *mod
 	}()
 
 	results, err := tx.ExecContext(ctx,
-	"UPDATE engine SET dispacement = $1, no_of_cylinders = $2, car_range = $3 WHERE id = $4", engineReq.Displacement, engineReq.NoOfCylinders, engineReq.CarRange, engineID)
+		"UPDATE engine SET displacement = $1, no_of_cylinders = $2, car_range = $3 WHERE id = $4", engineReq.Displacement, engineReq.NoOfCylinders, engineReq.CarRange, engineID)
 
 	if err != nil {
 		return models.Engine{}, err
@@ -136,17 +126,14 @@ func (e EngineStore) UpdateEngine(ctx context.Context, id string, engineReq *mod
 	}
 
 	engine := models.Engine{
-		EngineID : engineID,
-		Displacement: engineReq.Displacement,
+		EngineID:      engineID,
+		Displacement:  engineReq.Displacement,
 		NoOfCylinders: engineReq.NoOfCylinders,
-		CarRange: engineReq.CarRange,
+		CarRange:      engineReq.CarRange,
 	}
 
 	return engine, nil
 }
-
-
-
 
 func (e EngineStore) DeleteEngine(ctx context.Context, id string) (models.Engine, error) {
 	var engine models.Engine

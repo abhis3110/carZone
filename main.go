@@ -49,7 +49,7 @@ func main() {
 
 	router.HandleFunc("/cars/{id}", carhandler.GetCarByID).Methods("GET")
 	router.HandleFunc("/cars", carhandler.GetCarByBrand).Methods("GET")
-	router.HandleFunc("/cars", carhandler.CreateCar).Methods("POST") // need to correct func call
+	router.HandleFunc("/cars", carhandler.CreateCar).Methods("POST") // Need to correct function call
 	router.HandleFunc("/cars/{id}", carhandler.UpdateCar).Methods("PUT")
 	router.HandleFunc("/cars/{id}", carhandler.DeleteCar).Methods("DELETE")
 
